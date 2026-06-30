@@ -1,37 +1,37 @@
-name:CI - Code Quality Check 
+name: CI - Code Quality Check 
 
 on:
   push:
-    branches:[master,main]
+    branches:[master,main,feature/**]
 
   pull_request:
     branches:[master,main]
 
 jobs:
   build-check:
-    runs-on:ubuntu-latest
+    runs-on: ubuntu-latest
 
     env:
       DATABASE_URL: ${{secrets.DATABASE_URL }}
 
     steps:
-      - name:Checkout code 
+      - name: Checkout code 
         uses: actions/checkout@v4
 
-        - name: Setup Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: 22
-            cache: npm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
-        - name: Install dependencies
-          run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-        - name: Generate Prisma Client
-          run: npx prisma generate
+      - name: Generate Prisma Client
+        run: npx prisma generate
 
-        - name: Run lint
-          run: npm run lint
+      - name: Run lint
+        run: npm run lint
 
-        - name: Build project
-          run: npm run build
+      - name: Build project
+        run: npm run build
